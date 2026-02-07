@@ -1,0 +1,9 @@
+# PhonoCardi ML Training Requirements
+# Install: pip install -r requirements.txt
+
+tensorflow>=2.14.0,<2.18.0
+numpy>=1.24.0
+scipy>=1.11.0
+scikit-learn>=1.3.0
+coremltools>=7.0        # For iOS Core ML export
+matplotlib>=3.7.0       # For training visualizations (optional)

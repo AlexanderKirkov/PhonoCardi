@@ -1,0 +1,57 @@
+CREATE TABLE RecordingEntity (
+    id          TEXT NOT NULL PRIMARY KEY,
+    filename    TEXT NOT NULL,
+    filepath    TEXT NOT NULL,
+    created_at  INTEGER NOT NULL,
+    duration_ms INTEGER NOT NULL,
+    sample_rate INTEGER NOT NULL DEFAULT 44100,
+    heart_rate  INTEGER,
+    patient_id  TEXT,
+    notes       TEXT,
+    ai_result   TEXT,
+    signal_quality REAL,
+    tags        TEXT,
+    is_exported INTEGER NOT NULL DEFAULT 0
+);
+
+selectAll:
+SELECT * FROM RecordingEntity ORDER BY created_at DESC;
+
+selectById:
+SELECT * FROM RecordingEntity WHERE id = ?;
+
+insertRecording:
+INSERT OR REPLACE INTO RecordingEntity(
+    id, filename, filepath, created_at, duration_ms,
+    sample_rate, heart_rate, patient_id, notes, ai_result,
+    signal_quality, tags
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+updateNotes:
+UPDATE RecordingEntity SET notes = ? WHERE id = ?;
+
+updateAiResult:
+UPDATE RecordingEntity SET ai_result = ?, heart_rate = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM RecordingEntity WHERE id = ?;
+
+deleteAll:
+DELETE FROM RecordingEntity;
+
+searchByDateRange:
+SELECT * FROM RecordingEntity
+WHERE created_at BETWEEN ? AND ?
+ORDER BY created_at DESC;
+
+searchByTag:
+SELECT * FROM RecordingEntity
+WHERE tags LIKE '%' || ? || '%'
+ORDER BY created_at DESC;
+
+countAll:
+SELECT COUNT(*) FROM RecordingEntity;
+
+averageHeartRate:
+SELECT AVG(heart_rate) FROM RecordingEntity WHERE heart_rate IS NOT NULL;

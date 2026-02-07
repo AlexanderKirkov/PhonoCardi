@@ -1,0 +1,5 @@
+normal
+systolic_murmur
+diastolic_murmur
+extra_sound
+noisy
